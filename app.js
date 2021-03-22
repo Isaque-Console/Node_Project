@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const { Client } = require('pg');
 require('dotenv').config()
+const axios = require('axios');
 
 app.use(express.json())
 
@@ -18,6 +19,17 @@ app.get('/',async (req,res) => {
     const responseValue = 'successful get'
     const text = "SELECT * FROM pagamento"
     const cliente = await client.query(text)
+    const dados = await axios({
+        method: 'get',
+        url: 'viacep.com.br/ws/01001000/json/',
+        headers: {
+            'Content-type': 'application/json'
+        }
+        // data: {
+        //   firstName: 'Fred',
+        //   lastName: 'Flintstone'
+        // }
+    });
     res.send(cliente)
 })
 
@@ -74,7 +86,12 @@ app.delete('/:id', (req,res) => {
     res.send(responseValue)
 })
 
-const port = 3000
+//axios.get()
+
+ 
+ 
+
+const port = 3001
 
 app.listen(port, () => {
         console.log('Server alive')   
